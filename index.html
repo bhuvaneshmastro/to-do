@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Routine Checklist</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 60%;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        #datetime {
+            text-align: center;
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .section {
+            margin-top: 20px;
+        }
+
+        .section h2 {
+            color: #666;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            padding: 10px;
+            font-size: 18px;
+            border-bottom: 1px solid #eee;
+        }
+
+        ul li:last-child {
+            border-bottom: none;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            margin-top: 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Routine Checklist</h1>
+        <div id="datetime"></div>
+        <div class="section">
+            <h2>Daily Routine</h2>
+            <ul>
+                <li><input type="checkbox" class="task"> 6:00 AM: Wake up</li>
+                <li><input type="checkbox" class="task"> 6:10 AM - 6:30 AM: Have curry leaf juice and freshen up</li>
+                <li><input type="checkbox" class="task"> 6:30 AM - 7:00 AM: Exercise (yoga, stretching, or a short walk)</li>
+                <li><input type="checkbox" class="task"> 7:00 AM - 7:30 AM: Breakfast</li>
+                <li><input type="checkbox" class="task"> 7:30 AM - 8:30 AM: Read a book</li>
+            </ul>
+        </div>
+        <div class="section">
+            <h2>Learning and Practice Sessions</h2>
+            <ul>
+                <li><input type="checkbox" class="task"> 8:30 AM - 9:30 AM: Watch data science fundamental tutorials</li>
+                <li><input type="checkbox" class="task"> 9:30 AM - 10:30 AM: Learn SQL</li>
+                <li><input type="checkbox" class="task"> 10:30 AM - 11:30 AM: Learn Python</li>
+                <li><input type="checkbox" class="task"> 11:30 AM - 12:30 PM: Learn DSA</li>
+                <li><input type="checkbox" class="task"> 12:30 PM - 1:30 PM: Lunch break</li>
+                <li><input type="checkbox" class="task"> 1:30 PM - 3:00 PM: Work on projects</li>
+                <li><input type="checkbox" class="task"> 3:00 PM - 4:00 PM: Review and practice (revisit concepts, work on problems)</li>
+                <li><input type="checkbox" class="task"> 4:00 PM - 4:30 PM: Break (relax, take a walk, or meditate)</li>
+                <li><input type="checkbox" class="task"> 4:30 PM - 6:00 PM: Continue working on projects or review/practice as needed</li>
+                <li><input type="checkbox" class="task"> 6:00 PM - 7:00 PM: Free time (hobbies, relax, etc.)</li>
+                <li><input type="checkbox" class="task"> 7:00 PM - 8:00 PM: Dinner</li>
+                <li><input type="checkbox" class="task"> 8:00 PM - 9:00 PM: Light review or read a book</li>
+                <li><input type="checkbox" class="task"> 9:00 PM - 10:00 PM: Wind down (relax, prepare for bed)</li>
+                <li><input type="checkbox" class="task"> 10:00 PM: Sleep</li>
+            </ul>
+        </div>
+        <button id="generateReport">Generate Report</button>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Display current date and time
+            const now = new Date();
+            const formattedDate = now.toLocaleString();
+            document.getElementById('datetime').innerText = `Current Date and Time: ${formattedDate}`;
+
+            // Add event listener to the button
+            document.getElementById('generateReport').addEventListener('click', () => {
+                const tasks = document.querySelectorAll('.task');
+                let uncheckedTasks = `Report generated on: ${formattedDate}\n\nUnchecked Tasks:\n`;
+
+                tasks.forEach((task, index) => {
+                    if (!task.checked) {
+                        uncheckedTasks += `${index + 1}. ${task.parentElement.textContent.trim()}\n`;
+                    }
+                });
+
+                // Create a text file
+                const blob = new Blob([uncheckedTasks], { type: 'text/plain' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'unchecked_tasks.txt';
+                document.body.appendChild(link); // Append the link to the body
+                link.click(); // Programmatically click the link to trigger the download
+                document.body.removeChild(link); // Remove the link from the document
+            });
+        });
+    </script>
+</body>
+</html>
